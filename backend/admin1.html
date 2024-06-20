@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finders Keepers | Add Item</title>
+    <link rel="icon" href="images/app-icon.png" type="image/png">
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: grid;
+            grid-gap: 10px;
+            margin-top: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            resize: vertical;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .submit-button {
+            cursor: pointer;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add Item to Lost and Found</h1>
+        <form id="addItemForm">
+            <label for="item-name">Item Name:</label>
+            <input type="text" id="item-name" required>
+
+            <label for="description">Description:</label>
+            <textarea id="description" rows="4" required></textarea>
+
+            <label for="item-type">Item Type:</label>
+            <select id="item-type" required>
+                <option value="" selected disabled>Select an option</option>
+                <option value="uniform">Uniform</option>
+                <option value="water-bottle">Water Bottle</option>
+                <option value="books">Books</option>
+                <option value="electronics">Electronics</option>
+                <option value="others">Others</option>
+            </select>
+
+            <div id="others-option" style="display: none;">
+                <label for="others-input">Please specify:</label>
+                <input type="text" id="others-input">
+            </div>
+            
+            <label for="image-file">Image:</label>
+            <input type="file" id="image-file" accept="image/*" required>
+
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+WITHELD
+
+            // ... (Your Firebase configuration)
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Handle form submission
+        document.getElementById("addItemForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            var itemName = document.getElementById("item-name").value;
+            var description = document.getElementById("description").value;
+            var itemType = document.getElementById("item-type").value;
+            var othersInput = document.getElementById("others-input").value;
+
+            var database = firebase.database();
+            var storage = firebase.storage();
+            var storageRef = storage.ref();
+            var fileInput = document.getElementById("image-file");
+
+            if (fileInput.files[0]) {
+                var imageFile = fileInput.files[0];
+                var imageId = Date.now().toString();
+                var imageRef = storageRef.child("images/" + imageId);
+
+                imageRef.put(imageFile).then(function(snapshot) {
+                    return snapshot.ref.getDownloadURL();
+                }).then(function(downloadURL) {
+                    var postData = {
+                        itemName: itemName,
+                        description: description,
+                        itemType: itemType === "others" ? othersInput : itemType,
+                        dateAdded: new Date().toISOString(),
+                        found: true,
+                        imageUrl: downloadURL
+                    };
+
+                    var newPostRef = database.ref("lostItems").push();
+                    newPostRef.set(postData)
+                        .then(function() {
+                            alert("Item added successfully!");
+                            document.getElementById("addItemForm").reset();
+                        })
+                        .catch(function(error) {
+                            console.error("Error adding item:", error);
+                            alert("An error occurred while adding the item. Please try again.");
+                        });
+                }).catch(function(error) {
+                    console.error("Error uploading image:", error);
+                    alert("An error occurred while uploading the image. Please try again.");
+                });
+            } else {
+                alert("Please select an image file.");
+            }
+        });
+    </script>
+</body>
+</html>

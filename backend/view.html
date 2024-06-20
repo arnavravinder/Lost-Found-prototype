@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finders Keepers | Lost Items</title>
+    <link rel="icon" href="images/app-icon.png" type="image/png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .item-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f7f7f7;
+            position: relative;
+        }
+
+        .item-card h2 {
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .item-card p {
+            margin: 0;
+        }
+
+        .delete-button {
+            cursor: pointer;
+            background-color: #cc0000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .edit-button {
+            cursor: pointer;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .edit-form {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .edit-input {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 5px;
+        }
+
+        .edit-buttons {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .save-button {
+            cursor: pointer;
+            background-color: #2ecc71;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .cancel-button {
+            cursor: pointer;
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .delete-all-button {
+            cursor: pointer;
+            background-color: #cc0000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lost Items</h1>
+        <div id="lostItemsList"></div>
+        <button id="deleteAllButton" class="delete-all-button">Delete All Items</button>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+witheld
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Get a reference to the Firebase Realtime Database
+        var database = firebase.database();
+        var lostItemsRef = database.ref("lostItems");
+
+        // Function to convert Firebase timestamp to JS Date object
+        function convertTimestamp(timestamp) {
+            return new Date(timestamp);
+        }
+
+        // Function to delete an item from Firebase
+        function deleteItem(itemId) {
+            var itemRef = lostItemsRef.child(itemId);
+            itemRef.remove()
+                .then(function() {
+                    // Item deleted successfully
+                    alert("Item deleted successfully!");
+                })
+                .catch(function(error) {
+                    // An error occurred while deleting the item
+                    console.error("Error deleting item:", error);
+                    alert("An error occurred while deleting the item. Please try again.");
+                });
+        }
+
+        // Function to delete all items from Firebase
+        function deleteAllItems() {
+            if (confirm("Are you sure you want to delete all items?")) {
+                lostItemsRef.remove()
+                    .then(function() {
+                        alert("All items deleted successfully!");
+                    })
+                    .catch(function(error) {
+                        console.error("Error deleting items:", error);
+                        alert("An error occurred while deleting the items. Please try again.");
+                    });
+            }
+        }
+
+        // Function to display lost items on the page
+        function displayLostItems() {
+            lostItemsRef.on("value", function(snapshot) {
+                var lostItemsListDiv = document.getElementById("lostItemsList");
+                lostItemsListDiv.innerHTML = "";
+
+                snapshot.forEach(function(childSnapshot) {
+                    var itemData = childSnapshot.val();
+
+                    // Create a card to display each item
+                    var itemCardDiv = document.createElement("div");
+                    itemCardDiv.classList.add("item-card");
+                    itemCardDiv.setAttribute("data-item-id", childSnapshot.key);
+
+                    var itemNameHeading = document.createElement("h2");
+                    itemNameHeading.textContent = itemData.itemName;
+
+                    var itemDescriptionParagraph = document.createElement("p");
+                    itemDescriptionParagraph.textContent = "Description: " + itemData.description;
+
+                    var itemTypeParagraph = document.createElement("p");
+                    itemTypeParagraph.textContent = "Type: " + itemData.itemType;
+
+                    var itemDateAddedParagraph = document.createElement("p");
+                    itemDateAddedParagraph.textContent = "Date Added: " + convertTimestamp(itemData.dateAdded).toLocaleString();
+
+                    var deleteButton = document.createElement("button");
+                    deleteButton.classList.add("delete-button");
+                    deleteButton.textContent = "Delete";
+                    deleteButton.onclick = function() {
+                        deleteItem(childSnapshot.key);
+                    };
+
+                    var editButton = document.createElement("button");
+                    editButton.classList.add("edit-button");
+                    editButton.textContent = "Edit";
+                    editButton.onclick = function() {
+                        showEditForm(itemData, childSnapshot.key);
+                    };
+
+                    itemCardDiv.appendChild(itemNameHeading);
+                    itemCardDiv.appendChild(itemDescriptionParagraph);
+                    itemCardDiv.appendChild(itemTypeParagraph);
+                    itemCardDiv.appendChild(itemDateAddedParagraph);
+                    itemCardDiv.appendChild(deleteButton);
+                    itemCardDiv.appendChild(editButton);
+
+                    lostItemsListDiv.appendChild(itemCardDiv);
+                });
+            });
+        }
+
+        // Function to show the edit form for an item
+        function showEditForm(itemData, itemId) {
+            var itemCardDiv = document.querySelector("[data-item-id='" + itemId + "']");
+            var editFormDiv = document.createElement("div");
+            editFormDiv.classList.add("edit-form");
+
+            var nameInput = document.createElement("input");
+            nameInput.classList.add("edit-input");
+            nameInput.setAttribute("type", "text");
+            nameInput.setAttribute("placeholder", "Item Name");
+            nameInput.value = itemData.itemName;
+
+            var descriptionInput = document.createElement("input");
+            descriptionInput.classList.add("edit-input");
+            descriptionInput.setAttribute("type", "text");
+            descriptionInput.setAttribute("placeholder", "Description");
+            descriptionInput.value = itemData.description;
+
+            var typeInput = document.createElement("input");
+            typeInput.classList.add("edit-input");
+            typeInput.setAttribute("type", "text");
+            typeInput.setAttribute("placeholder", "Type");
+            typeInput.value = itemData.itemType;
+
+            var editButtonsDiv = document.createElement("div");
+            editButtonsDiv.classList.add("edit-buttons");
+
+            var saveButton = document.createElement("button");
+            saveButton.classList.add("save-button");
+            saveButton.textContent = "Save";
+            saveButton.onclick = function() {
+                updateItem(itemId, nameInput.value, descriptionInput.value, typeInput.value);
+                hideEditForm();
+            };
+
+            var cancelButton = document.createElement("button");
+            cancelButton.classList.add("cancel-button");
+            cancelButton.textContent = "Cancel";
+            cancelButton.onclick = function() {
+                hideEditForm();
+            };
+
+            editButtonsDiv.appendChild(saveButton);
+            editButtonsDiv.appendChild(cancelButton);
+
+            editFormDiv.appendChild(nameInput);
+            editFormDiv.appendChild(descriptionInput);
+            editFormDiv.appendChild(typeInput);
+            editFormDiv.appendChild(editButtonsDiv);
+
+            itemCardDiv.appendChild(editFormDiv);
+        }
+
+        // Function to hide the edit form for an item
+        function hideEditForm() {
+            var editForms = document.querySelectorAll(".edit-form");
+            editForms.forEach(function(editForm) {
+                editForm.remove();
+            });
+        }
+
+        // Function to update an item in Firebase
+        function updateItem(itemId, newName, newDescription, newType) {
+            var itemRef = lostItemsRef.child(itemId);
+            itemRef.update({
+                itemName: newName,
+                description: newDescription,
+                itemType: newType
+            }).then(function() {
+                alert("Item updated successfully!");
+            }).catch(function(error) {
+                console.error("Error updating item:", error);
+                alert("An error occurred while updating the item. Please try again.");
+            });
+        }
+
+        // Call the displayLostItems function to show lost items on page load
+        displayLostItems();
+
+        // Event listener for the delete all button
+        var deleteAllButton = document.getElementById("deleteAllButton");
+        deleteAllButton.addEventListener("click", deleteAllItems);
+
+                // Function to add click event listeners to the edit buttons
+                function addEditButtonListeners() {
+            var editButtons = document.querySelectorAll(".edit-button");
+            editButtons.forEach(function(editButton) {
+                editButton.addEventListener("click", function() {
+                    var itemId = this.getAttribute("data-item-id");
+                    var itemData = getItemDataById(itemId);
+                    if (itemData) {
+                        showEditForm(itemData, itemId);
+                    }
+                });
+            });
+        }
+
+                // Function to get item data by its ID
+                function getItemDataById(itemId) {
+            var snapshot = lostItemsRef.child(itemId);
+            var itemData = null;
+            snapshot.on("value", function(dataSnapshot) {
+                itemData = dataSnapshot.val();
+            });
+            return itemData;
+        }
+        // Call the addEditButtonListeners function to add click event listeners to the edit buttons
+        addEditButtonListeners();
+
+
+    </script>
+</body>
+</html>
