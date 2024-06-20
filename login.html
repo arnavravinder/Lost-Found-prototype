@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finders Keepers | Login</title>
+  <link rel="shortcut icon" href="images/login-page-icon.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles/login-page-styles.css">
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+
+<body>
+  <div class="container" id="container">
+    <div class="form-container sign-up-container">
+      <form action="#">
+        <h1>Create Account</h1>
+        <div class="social-container">
+            <a href="#" class="social"><img class="image-icon twitter" src="images/twitter.png" alt=""
+                onclick="signInWithTwitter()"></a>
+        <a href="#" class="social" onclick="signInWithGoogle()"><img class="image-icon google"
+                src="images/google.png" alt=""></a>
+        <a href="#" class="social apple-btn" onclick="applesoon()"><img class="image-icon apple"
+                src="images/apple.png" alt=""></a>
+</div>
+        <span>or use your email for registration</span>
+        <input type="email" class="text-field" id="signupEmail" placeholder="Email" />
+        <input type="password" class="text-field" id="signupPassword" placeholder="Password" />
+        <button type="button" class="sign-up-button" onclick="register()">Sign Up</button>
+        <p id="verificationMessage" style="display: none;">A verification email has been sent to your email address. Please check your inbox.</p>
+
+      </form>
+    </div>
+
+    <div class="form-container sign-in-container" data-aos="fade-right">
+      <form action="#">
+        <h1>Sign in</h1>
+        <div class="social-container">
+            <a href="#" class="social"><img class="image-icon twitter" src="images/twitter.png" alt=""
+                onclick="signInWithTwitter()"></a>
+        <a href="#" class="social" onclick="signInWithGoogle()"><img class="image-icon google"
+                src="images/google.png" alt=""></a>
+        <a href="#" class="social apple-btn" onclick="applesoon()"><img class="image-icon apple"
+                src="images/apple.png" alt=""></a>
+</div>
+        <span>or use your account</span>
+        <input class="text-field" type="email" id="signinEmail" placeholder="Email" />
+        <input class="text-field" type="password" id="signinPassword" placeholder="Password" />
+        <a href="#" id="forgotPasswordLink">Forgot your password?</a>
+        <button type="button" class="sign-in-button" onclick="signInWithEmailAndPassword()">Sign In</button>
+      </form>
+    </div>
+    <div class="popup-container" id="popup">
+      <div class="popup-content">
+        <p id="popup-message">Popup Message</p>
+        <button class="popup-button" onclick="hidePopup()">Close</button>
+      </div>
+    </div>
+    <div id="inputPopup" class="popup-container">
+      <div class="popup-content">
+        <input type="text" id="popup-input" class="popup-input" placeholder="Enter your email">
+        <button id="input-popup-button" class="popup-button">Submit</button>
+      </div>
+    </div>
+        
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>Welcome Back!</h1>
+          <p>To keep connected with us please login</p>
+          <button class="ghost" id="signIn">Sign In</button>
+        </div>
+        <div class="overlay-panel overlay-right" data-aos="fade-up">
+          <h1>Hello!</h1>
+          <p>Enter your Login credentials and start your journey with us</p>
+          <button class="ghost" id="signUp">Sign Up</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-analytics.js"></script>
+
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script src="js/firebase-auth.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+var firebaseConfig = {
+WITHELD
+  firebase.initializeApp(firebaseConfig);
+    const twitterProvider = new firebase.auth.TwitterAuthProvider();
+    const db = firebase.firestore 
+
+  </script>
+  <script>
+    AOS.init();
+  </script>
+      <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+witheld init
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+      </script>
+<script src="js/popup.js"></script>
+</body>
+</html>
