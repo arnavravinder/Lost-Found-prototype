@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finders Keepers | Dashboard</title>
+    <link rel="icon" href="images/app-icon.png" type="image/png">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/styles-app.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+</head>
+<!-- Add the Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-auth.js"></script>
+
+<script>
+  var firebaseConfig = {
+//HELD
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+//HELd
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+<body id="Home">
+  <div class="navigation">
+    <div class="navigation-bar">
+            <div data-aos="fade-right">
+                <h1 class="highlight2">Finders Keepers</h1></a>
+            </div>
+            <ul class="navigate-items" data-aos="fade-left">
+                <li class="navigation-item"><a href="index.html" class="navigation-link highlight2">Home</a></li>
+                <li class="navigation-item"><a href="#lost-items" class="navigation-link highlight2">Post Item</a></li>
+                <li class="navigation-item"><a href="index.html#guidelines-page" class="navigation-link highlight2">Guidelines</a></li>
+                <li class="navigation-item last-item"><a href="#faq"class="navigation-link highlight2">FAQ</a></li>
+                <div class="inner-header">
+                    <div>
+                        <img class="profile" src="images/profile.png" alt="">
+                        <p class="user-name highlight2" id="profileName" ></p>
+                        <img class="user-chevron" src="images/right-chevron.png" alt="">
+                    </div>
+                    <ul class="user-settings-nav-bar hidden">
+                        <li class="user-setting-item">
+                            <a href="#" onclick="showPopup('You can reset your password from the login page! This page is coming soon'); return false;">Reset Password</a>
+                            <hr class="line">
+                        </li>   
+                        <li class="user-setting-item">
+                            <a href="#" onclick="showPopup('This page is in development, and coming soon!'); return false;">Profile</a>
+                            <hr class="line">
+                        </li>   
+                        <li class="user-setting-item">
+                            <a href="#" onclick="showPopup('This page is in development, and coming soon!'); return false;">Claimed Items</a>
+                            <hr class="line">
+                        </li>   
+                        <li class="user-setting-item">
+                            <a href="index.html#contact-us-page">Contact Us</a>
+                            <hr class="line">
+                        </li>   
+                        <li class="user-setting-item">
+                            <a href="#" class="danger" onclick="signOut()">Sign Out</a>
+                            <hr class="line danger">
+                        </li>   
+                    </ul>
+                </div>
+            </ul>
+    </div>
+    <div class="popup-container" id="inputPopup">
+        <div class="popup-content">
+          <span id="popupClose" class="popup-close">&times;</span>
+          <h2 id="popupMessagei" class="popup-message">Popup Message</h2>
+          <input type="text" id="popupInput" class="popup-input">
+          <button id="popupSubmit" class="popup-button">Submit</button>
+        </div>
+      </div>
+      
+    <div class="navigation-bar-2">
+        <div class="mobile-heading center-navigation">
+            <div data-aos="fade-right">
+                <h1 class="navigation-heading highlight2">Finders Keepers</h1>
+            </div>
+            <div id="navigation-hide-button">
+                <img src="images/menu-bar.svg" alt="">
+            </div>
+        </div>
+        <div>
+            <ul class="navigate-items-mobile hidden">
+                <li class="navigation-item"><a href="index.html" class="navigation-link highlight2">Home</a></li>
+                <li class="navigation-item"><a href="#lost-items" class="navigation-link highlight2">Post Item</a></li>
+                <li class="navigation-item"><a href="#guidelines-page" class="navigation-link highlight2">Guidelines</a></li>
+                <li class="navigation-item last-item"><a href="#faq"class="navigation-link highlight2">FAQ</a></li>
+                <li class="navigation-item"><a href="reset-password-page.html" target="_blank" class="navigation-link highlight2">Reset Password</a></li>
+                <li class="navigation-item"><a href="profile.html" class="navigation-link highlight2">Profile</a></li>
+                <li class="navigation-item"><a href="claimed-items.html" class="navigation-link highlight2">Claimed Items</a></li>
+                <li class="navigation-item"><a href="#contact-us-page" target="_blank" class="navigation-link highlight2">Contact Us</a></li>
+                <li class="navigation-item"><a href="" class="navigation-link danger">Sign Out</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    <div class="hidden-pop-up hidden">
+        <h1 class="heading">User not <span class="highlight">signed in!</span></h1>
+    </div>
+    
+    <div class="hello-user">
+        <div data-aos="fade-right">
+            <h1 class="hello-user">Hello, <span class="highlight" id="displayName"></span></h1>
+        </div>
+    </div>
+
+    <div class="popup-container" id="popup">
+        <div class="popup-content">
+          <p id="popup-message">Popup Message</p>
+          <button class="popup-button" onclick="hidePopup()">Close</button>
+        </div>
+      </div>
+  
+    
+    <div class="contact-us-form" style="margin-top: 310px;">
+        <div id="lost-items"></div>
+        <div data-aos="fade-in">
+            <h1 id="contact-us-page" class="contact-us-heading">Post A <span class="highlight">Lost Item</span></h1>
+        </div>
+        <form id="searchForm">
+            <div class="grid-1x2 contact-us-grid">
+                <div data-aos="fade-down-right"><input type="text" id="item-name" class="post-item-text-field contact-us-input" placeholder="Item Name" required maxlength="100" minlength="3"></div>
+                <div data-aos="fade-down-left"><input type="text" id="question" class="post-item-text-field contact-us-input" placeholder="Owner's Full Name" required maxlength="100"></div>
+            </div>
+            <div data-aos="fade"><textarea id="description" class="post-item-text-field post-item-text-area contact-us-input contact-us-textarea" cols="30" rows="10" placeholder="Description" required></textarea></div>
+            <div data-aos="fade-up">
+                <select id="item-type" name="item-type" class="item-type-select">
+                    <option value="" selected hidden disabled>Item Type...</option>
+                    <option value="uniform">Uniform</option>
+                    <option value="water-bottle">Water Bottle</option>
+                    <option value="books">Books</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="others">Others</option>
+                </select>
+            </div>
+            <div data-aos="fade-up">
+              <div class="date-picker-container">
+                  <input type="text" id="date-lost" class="post-item-text-field contact-us-input" placeholder="Date Lost" readonly>
+              </div>
+          </div>
+            <div data-aos="fade-up">
+                <button class="button submit-button contact-us-submit" type="submit">Post Item</button>
+            </div>
+        </form>
+    </div>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="https://npmcdn.com/flatpickr"></script>
+    <script>
+        AOS.init();
+    </script>
+    <script>
+    </script>
+    <script src="js/popup.js"></script>
+    <script src="js/dashboard.js"></script>
+
+  </body>
+</html>
+
