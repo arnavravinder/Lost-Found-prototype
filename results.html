@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <link rel="shortcut icon" href="images/magnifying-glass.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/results-styles.css">
+    <style>
+        .image-container {
+            width: 40%;
+            float: right;
+            margin-left: 20px;
+        }
+
+        .item-image {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navigation">
+        <div class="navigation-bar">
+            <div data-aos="fade-right">
+                <h1 class="navigation-heading highlight2">Finders Keepers</h1>
+            </div>
+            <ul class="navigate-items" data-aos="fade-left">
+                <li class="navigation-item"><a href="index.html#Home" class="navigation-link highlight2">Home</a></li>
+                <li class="navigation-item"><a href="index.html#guidelines-page" target="_blank" class="navigation-link highlight2">Guidelines</a></li>
+                <li class="navigation-item"><a href="dashboard.html" class="navigation-link highlight2">Post Item</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="center">
+        <div class="main grid-1x2">
+            <div>
+                <div data-aos="fade-left">
+                    <h1 class="heading highlight">Results</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div data-aos="fade-in">
+        <div class="center">
+            <div class="box grid-1x2 box-grid" style="justify-content: center;">
+                <div>
+                    <div data-aos="fade-right" style="display: flex; justify-content: center;">
+                        <div id="results"></div>
+                    </div>
+                </div>
+                <div class="imageDiv">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script>
+    <script>
+        var firebaseConfig = {
+//witheld        
+};
+
+        firebase.initializeApp(firebaseConfig);
+        var firestore = firebase.firestore;
+
+        function formatIndianDateTime(timestamp) {
+            const options = {
+                timeZone: 'Asia/Kolkata',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+            };
+            return new Date(timestamp).toLocaleString('en-IN', options);
+        }
+
+        function handleClaimButtonClick(item) {
+
+            var confirmation = confirm("Are you sure you want to claim this item?");
+                if (confirmation) {
+                    var emailSubject = "Claim Lost Item: " + item.itemName;
+                    var emailBody = "Item Name: " + item.itemName + "\n" +
+                        "Description: " + item.description + "\n" +
+                        "Type: " + item.itemType + "\n" +
+                        "Date Found: " + formatIndianDateTime(item.dateAdded);
+                    var emailLink = "mailto:invlostandfound@gmail.com?subject=" +
+                    encodeURIComponent(emailSubject) + "&body=" + encodeURIComponent(emailBody);
+                    console.log("checkmark")
+
+                        window.location.href = emailLink;
+                        console.log("done")
+
+
+
+                    var claimRequest = {
+                        userName: userEmail,
+                        userEmail: userEmail
+                    };
+
+                    window.location.href = emailLink;
+
+
+                    firebase.firestore().collection("claimreq").add(claimRequest)
+                        .then(function() {
+                            window.location.href = emailLink;
+                        })
+                        .catch(function(error) {
+                            console.error("Error adding claim request: ", error);
+                            window.location.href = emailLink;
+
+                        });
+                }
+            }
+        
+
+        function displaySearchResults(results) {
+            var resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = "";
+
+            if (results.length === 0) {
+                var message = document.createElement("p");
+                message.textContent = "We haven't found your item yet, but we are searching for it.";
+
+                resultsDiv.appendChild(message);
+            } else {
+                results.forEach(function(item, index) {
+                    var resultBox = document.createElement("div");
+                    resultBox.className = "result-box";
+
+                    var counter = document.createElement("p");
+                    counter.className = "result-counter";
+                    counter.textContent = "Result " + (index + 1);
+
+                    var nameField = document.createElement("p");
+                    nameField.className = "result-field";
+                    nameField.textContent = "Name";
+
+                    var nameReply = document.createElement("p");
+                    nameReply.className = "result-field-reply";
+                    nameReply.textContent = item.itemName;
+
+                    var descriptionField = document.createElement("p");
+                    descriptionField.className = "result-field";
+                    descriptionField.textContent = "Description";
+
+                    var descriptionReply = document.createElement("p");
+                    descriptionReply.className = "result-field-reply description";
+                    descriptionReply.textContent = item.description;
+
+                    var typeField = document.createElement("p");
+                    typeField.className = "result-field";
+                    typeField.textContent = "Type";
+
+                    var typeReply = document.createElement("p");
+                    typeReply.className = "result-field-reply";
+                    typeReply.textContent = item.itemType;
+
+                    var dateField = document.createElement("p");
+                    dateField.className = "result-field";
+                    dateField.textContent = "Date Found";
+
+                    var dateReply = document.createElement("p");
+                    dateReply.className = "result-field-reply date-time";
+                    dateReply.textContent = formatIndianDateTime(item.dateAdded);
+
+                    resultBox.appendChild(counter);
+                    resultBox.appendChild(nameField);
+                    resultBox.appendChild(nameReply);
+                    resultBox.appendChild(descriptionField);
+                    resultBox.appendChild(descriptionReply);
+                    resultBox.appendChild(typeField);
+                    resultBox.appendChild(typeReply);
+                    resultBox.appendChild(dateField);
+                    resultBox.appendChild(dateReply);
+
+                    if (item.found) {
+                        var claimButton = document.createElement("button");
+                        claimButton.className = "claim-button";
+                        claimButton.textContent = "Claim Item";
+
+                        var claimButtonDiv = document.createElement("div");
+                        claimButtonDiv.className = "claim-button-div";
+                        claimButtonDiv.appendChild(claimButton);
+
+                        resultBox.appendChild(claimButtonDiv);
+
+                        claimButton.addEventListener("click", function() {
+                            handleClaimButtonClick(item);
+                        });
+                    }
+
+                    var itemImage = document.createElement("img");
+                    itemImage.className = "item-image";
+                    itemImage.src = item.imageUrl;
+                    itemImage.alt = "Item Image";
+
+                    var imageDivC = document.createElement("div");
+                    imageDivC.className = "imageDivC";
+                    document.querySelector(".imageDiv").appendChild(imageDivC);
+                    imageDivC.appendChild(itemImage);
+
+                    resultsDiv.appendChild(resultBox);
+
+                    if (index !== results.length - 1) {
+                        var divider = document.createElement("div");
+                        divider.className = "result-divider";
+                        resultsDiv.appendChild(divider);
+                    }
+                });
+            }
+        }
+
+        var searchResults = JSON.parse(localStorage.getItem("searchResults"));
+        if (searchResults) {
+            displaySearchResults(searchResults);
+            localStorage.removeItem("searchResults");
+        }
+    </script>
+        <script type="module">
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+          
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+//witheld
+            };
+          
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+          </script>
+    
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found!</title>
+    <link rel="stylesheet" href="styles/404.css">
+    <link rel="shortcut icon" href="images/404-page-icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="styles/normalize.css">
+</head>
+<body style="background: url(images/404-page-background.svg);">
+    <div class="stars" style="background-image: url(images/stars.svg);">
+        <div class="navigation">
+            <div class="navigation-bar">
+                    <div data-aos="fade-right">
+                        <h1 class="navigation-heading highlight">Finders Keepers</h1>
+                    </div>
+                    <ul class="navigate-items" data-aos="fade-left">
+                        <li class="navigation-item"><a href="index.html" class="navigation-link highlight">Home Page</a></li>
+                        <li class="navigation-item"><a href="app.html#lost-items" class="navigation-link highlight">Report a Lost Item</a></li>
+                        <li class="navigation-item"><a href="index.html#guidelines-page" class="navigation-link highlight">Guidelines</a></li>
+                        <li class="navigation-item last-item"><a href="login.html"class="navigation-link highlight">Login/Signup</a></li>
+                    </ul>
+            </div>
+        </div>
+        <div class="headings">
+            <div data-aos="fade-right">
+                <h1 class="heading heading-404 highlight">404</h1>
+            </div>
+            <div class="sub-headings" data-aos="fade-left">
+                <h2 class="heading sub-heading-404 sub-heading-bold">Page Not Found</h2>
+            </div>
+            <div class="back-home" data-aos="fade">
+                <a href="index.html" class="go-back-home">Go Back To Home</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+witheld        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+      </script>
+
+</body>
+</html>
