@@ -1,0 +1,114 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    padding: 10px 20px;
+}
+
+.post-item-app {
+    display: flex;
+    justify-content: center;
+    margin-top: 300px;
+}
+
+.post-item-form {
+    text-align: center;
+    margin-top: 160px;
+    color: white;
+}
+
+.contact-us-heading {
+    font-size: 3rem;
+}
+
+.post-item-input {
+    background-color: #272c3a;
+    width: 20vw;
+    padding: 15px 20px;
+}
+
+.post-item-textarea {
+    width: 46%;
+    height: 60%;
+    margin-top: 20px;
+    background-color: #272c3a;
+    padding: 15px;
+}
+
+.post-item-submit {
+    margin-top: 15px;
+    margin-bottom: 50px;
+}
+
+.post-item-input {
+    color: white;
+}
+
+.post-item-text-field {
+    width: 50%;
+    outline: 0;
+    border: 0;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.post-item-text-field::placeholder {
+    color: grey;
+}
+
+.post-item-text-area {
+    height: 119px;
+    resize: none;
+}
+
+.important::placeholder {
+    color: lightcoral;
+}
+
+.item-type-select {
+    width: 48%;
+    margin: 15px;
+    text-align: center;
+    background-color: #272c3a;
+    color: white;
+    outline: 0;
+    border: 0;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.hello-user {
+    margin-top: 300px;
+    color: white;
+    text-align: center;
+    font-size: 6rem;
+}
+
+.inline {
+    display: inline;
+}
+
+#date-found {
+    background-color: #272c3a;
+    color: white;
+    width: 20vw;
+    padding: 15px 20px;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.flatpickr-input {
+    background-color: #272c3a;
+    color: white; 
+    width: 20vw;
+    padding: 15px 20px;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    margin-top: 20px;
+
+}
+

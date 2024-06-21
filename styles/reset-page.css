@@ -1,0 +1,77 @@
+
+.main-heading{
+    /* color: white; */
+    text-align: center;
+    font-size: 3rem;
+}
+.box{
+    margin-top:40px;
+    text-align: center;
+}
+.email-field{
+    font-size: 1.5rem;
+}
+.heading{
+    font-size: 4rem;
+    margin-bottom: 0;
+}
+.center{
+    display: flex;
+    justify-content: center;
+}
+
+.eye-closed{
+    display: none;
+}
+.eye{
+    width:18%;
+}
+#eyeIcon{
+    display: flex;
+    justify-content: right;
+    padding-right: 20px;
+    padding-top: 30px;
+}
+
+.content{
+    display: flex;
+    align-items: center;
+    margin-left: 30%;
+    margin-right: 30%;
+    padding: 0;
+    padding-bottom: 10px;
+    margin-top: 50px;
+}
+.content-label-password{
+    text-align: left;
+}
+.content-label-password input{
+    display: block;
+    margin-top: 10px;
+    border-radius: 10px;
+    background-color: #272c3a;
+    padding: 10px 20px;
+    width: 215%;
+    outline: 0;
+    border: 0;
+    color: white;
+    transition: box-shadow 0.3s;
+    z-index: 100;
+}
+.content-label-password input:hover, .content-label-password input:focus{
+    box-shadow: 0 0 10px dodgerblue;
+}
+.password-label{
+    font-size:1.25rem;
+    opacity: 0.5;
+}
+.submit-button{
+    background-color: rgb(100, 158, 251);
+    outline: 0;
+    border: 0;
+    border-radius: 10px;
+    font-weight: 500;
+    padding: 13px 40px;
+    font-size: 1.25rem;
+    margin-top: 20px;
+}

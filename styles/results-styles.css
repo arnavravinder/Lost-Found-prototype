@@ -1,0 +1,171 @@
+
+.main {
+    margin-top: 50px;
+    color: white;
+    text-align: center;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+.grid-1x2 {
+    column-gap: 50px;
+}
+
+.heading {
+    font-size: 5rem;
+    margin-bottom: 0;
+}
+
+.sub-heading {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+}
+
+.check-button:any-link {
+    display: none;
+}
+
+.main-img {
+    /* Removed the previous keyframes animation */
+    /* Set new animation for rotating left-to-right */
+    animation: mainImg 5s linear infinite alternate;
+    transition: filter 0.3s;
+}
+
+.main-img:hover {
+    filter: drop-shadow(0 0 20px #6a4a2c);
+}
+
+.box {
+    text-align: center;
+    margin-top: 50px;
+    padding: 30px;
+}
+
+.result-box {
+    text-align: center;
+}
+
+.result-field {
+    display: inline-block;
+    margin-bottom: 10px;
+    transition: color 0.3s;
+}
+
+.result-field, .result-field-reply {
+    text-align: center;
+    font-size: 1.25rem;
+}
+
+.result-field:hover, .result-field-reply:hover {
+    color: rgb(100, 158, 251);
+}
+
+.result-field::after {
+    content: ":";
+}
+
+.result-field-reply {
+    margin-top: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #313849;
+    transition: padding-left 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+.result-box .result-field:hover + .result-field-reply {
+    padding-left: 50px;
+    box-shadow: 0 0 10px rgb(100, 158, 251);
+}
+
+.description {
+    margin-bottom: 0px;
+}
+
+.date-time {
+    color: white;
+    margin-top: 10px;
+}
+
+.lost-item-image {
+    text-align: center;
+}
+
+/* results-styles.css */
+
+/* results-styles.css */
+
+/* Add any existing CSS styles here */
+
+/* Styles for search result boxes */
+  
+  /* Counter for each result */
+  .result-counter {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  /* Styles for fields and their replies */
+  .result-field {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .result-field-reply {
+    margin-bottom: 10px;
+  }
+  
+  /* Styles for item description */
+  .result-field-reply.description {
+    white-space: pre-wrap;
+  }
+  
+  /* Styles for claim button */
+  .claim-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: rgb(84, 147, 247);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 0;
+    font-weight: 500;
+    letter-spacing: 1px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    transition: background-color 0.3s
+}
+
+.claim-button:hover {
+    background-color: #0056b3;
+}
+
+  /* Style for claim button div */
+  .claim-button-div {
+    margin-top: 10px;
+  }
+  
+  /* Style for result divider */
+  .result-divider {
+    height: 1px;
+    background-color: #ccc;
+    margin: 20px 0;
+  }
+  
+  /* Add any additional CSS styles here */
+  
+.imageDiv {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
+  
+.imageDivC {
+    height: calc(100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
