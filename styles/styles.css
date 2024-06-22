@@ -1382,3 +1382,74 @@ header nav a:hover {
 .slider-dots button:hover {
     background: #0099cc;
 }
+body {
+    background-color: #141414;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.gallery-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gallery-header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.video-row {
+    display: flex;
+    overflow-x: auto;
+    padding: 20px 0;
+    scrollbar-width: none; /* Firefox */
+}
+
+.video-row::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.video-item {
+    flex: 0 0 auto;
+    width: 200px;
+    margin-right: 10px;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.video-item img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.video-item:hover {
+    transform: scale(1.1);
+    z-index: 1;
+}
+
+.video-title {
+    margin-top: 10px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.video-description {
+    display: none;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 5px;
+    border-radius: 3px;
+    width: 90%;
+    text-align: center;
+}
+
+.video-item:hover .video-description {
+    display: block;
+}
