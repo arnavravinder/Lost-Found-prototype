@@ -377,3 +377,123 @@ body{
     grid-template-columns: auto auto;
     grid-template-rows: auto;
 }
+.text-field-label{
+    justify-self: left;
+    margin-left: 25%;
+    transition: color 0.3s, text-shadow 0.3s;
+    padding-bottom: 20px;
+}
+.text-field{
+    transition: box-shadow 0.3s;
+}
+.label-input:hover .text-field-label{
+    color: rgb(100, 158, 251);
+    text-shadow: 0 0 20px rgb(100, 158, 251);
+}
+.label-input:hover .important::after{text-shadow: 0 0 20px red;}
+.text-field:focus{
+    box-shadow: 0 0 20px dodgerblue;
+}
+.important::after{
+    content: "*";
+    color: red;
+    transition: text-shadow 0.3s;
+}
+.label-input{
+    padding-bottom:45px;
+}
+.label-text-field{
+    grid-template-rows: 51.8px auto;
+}
+.text-area{
+    height: 119px;
+    resize: none;
+}
+.button{
+    width: 15%;
+    padding: 15px 45px;
+    border-radius: 50px;
+    border: 0;
+}
+.submit-button{
+    justify-self: right;
+    background-color: rgb(100, 158, 251);
+    transition: box-shadow 0.3s;
+    font-weight: 500;
+    cursor: pointer;
+}
+.submit-button:hover{
+    box-shadow:0 0 20px rgb(100, 158, 251);
+}
+.guidelines{
+    margin-top:200px;
+    text-align: center;
+}
+.guidelines-heading{
+    font-size: 3rem;
+}
+.grid-2x2{
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+}
+.guidlines-cards{
+    column-gap: 40px;
+    row-gap: 40px;
+}
+.guidelines-grid{
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    justify-content: center;
+}
+.card{
+    border: 2px solid dodgerblue;
+    border-radius: 10px;
+    color: white;
+    width: fit-content;
+    transition: box-shadow 0.3s;
+}
+.card-icon{
+    width: 25%;
+    transition: filter 0.3s;
+}
+.card:hover{
+    box-shadow: 0 0 10px dodgerblue;
+}
+.card:hover .card-icon{
+    filter: drop-shadow(0 0 10px #595bd4);
+}
+.card:hover .highlight2{
+    color:rgb(84, 147, 247);
+    text-shadow: 0 0 30px rgb(84, 147, 247);
+}
+.crad-description{
+    width: 50ch;
+    line-height: 25px;
+}
+.content{
+    padding: 40px 30px;
+}
+.contact-us-form{
+    text-align: center;
+    margin-top: 160px;
+    color: white;
+}
+.contact-us-grid{
+    justify-content:center ;
+    row-gap: 15px;
+    column-gap: 20px;
+}
+.contact-us-input{
+    background-color: #272c3a;
+    width: 20vw;
+    padding: 15px 20px;
+}
+.contact-us-textarea{
+    width: 46%;
+    height: 60%;
+    margin-top: 20px;
+    background-color: #272c3a;
+    padding: 15px;
+}
