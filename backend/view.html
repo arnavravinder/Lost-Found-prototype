@@ -127,36 +127,31 @@
     <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script>
     <script>
         // Your web app's Firebase configuration
-witheld
+        var firebaseConfig = {
+//00
+        };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
 
-        // Get a reference to the Firebase Realtime Database
         var database = firebase.database();
         var lostItemsRef = database.ref("lostItems");
 
-        // Function to convert Firebase timestamp to JS Date object
         function convertTimestamp(timestamp) {
             return new Date(timestamp);
         }
 
-        // Function to delete an item from Firebase
         function deleteItem(itemId) {
             var itemRef = lostItemsRef.child(itemId);
             itemRef.remove()
                 .then(function() {
-                    // Item deleted successfully
                     alert("Item deleted successfully!");
                 })
                 .catch(function(error) {
-                    // An error occurred while deleting the item
                     console.error("Error deleting item:", error);
                     alert("An error occurred while deleting the item. Please try again.");
                 });
         }
 
-        // Function to delete all items from Firebase
         function deleteAllItems() {
             if (confirm("Are you sure you want to delete all items?")) {
                 lostItemsRef.remove()
@@ -170,7 +165,6 @@ witheld
             }
         }
 
-        // Function to display lost items on the page
         function displayLostItems() {
             lostItemsRef.on("value", function(snapshot) {
                 var lostItemsListDiv = document.getElementById("lostItemsList");
@@ -179,7 +173,6 @@ witheld
                 snapshot.forEach(function(childSnapshot) {
                     var itemData = childSnapshot.val();
 
-                    // Create a card to display each item
                     var itemCardDiv = document.createElement("div");
                     itemCardDiv.classList.add("item-card");
                     itemCardDiv.setAttribute("data-item-id", childSnapshot.key);
@@ -222,7 +215,6 @@ witheld
             });
         }
 
-        // Function to show the edit form for an item
         function showEditForm(itemData, itemId) {
             var itemCardDiv = document.querySelector("[data-item-id='" + itemId + "']");
             var editFormDiv = document.createElement("div");
@@ -275,7 +267,6 @@ witheld
             itemCardDiv.appendChild(editFormDiv);
         }
 
-        // Function to hide the edit form for an item
         function hideEditForm() {
             var editForms = document.querySelectorAll(".edit-form");
             editForms.forEach(function(editForm) {
@@ -283,7 +274,6 @@ witheld
             });
         }
 
-        // Function to update an item in Firebase
         function updateItem(itemId, newName, newDescription, newType) {
             var itemRef = lostItemsRef.child(itemId);
             itemRef.update({
@@ -298,14 +288,11 @@ witheld
             });
         }
 
-        // Call the displayLostItems function to show lost items on page load
         displayLostItems();
 
-        // Event listener for the delete all button
         var deleteAllButton = document.getElementById("deleteAllButton");
         deleteAllButton.addEventListener("click", deleteAllItems);
 
-                // Function to add click event listeners to the edit buttons
                 function addEditButtonListeners() {
             var editButtons = document.querySelectorAll(".edit-button");
             editButtons.forEach(function(editButton) {
@@ -319,7 +306,6 @@ witheld
             });
         }
 
-                // Function to get item data by its ID
                 function getItemDataById(itemId) {
             var snapshot = lostItemsRef.child(itemId);
             var itemData = null;
@@ -328,7 +314,6 @@ witheld
             });
             return itemData;
         }
-        // Call the addEditButtonListeners function to add click event listeners to the edit buttons
         addEditButtonListeners();
 
 

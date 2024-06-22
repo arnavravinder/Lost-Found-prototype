@@ -68,6 +68,10 @@
         .submit-button:hover {
             background-color: #444;
         }
+
+        .others-option {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -90,7 +94,7 @@
                 <option value="others">Others</option>
             </select>
 
-            <div id="others-option" style="display: none;">
+            <div id="others-option" class="others-option">
                 <label for="others-input">Please specify:</label>
                 <input type="text" id="others-input">
             </div>
@@ -106,67 +110,11 @@
     <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js"></script>
+    
+    <!-- ChatGPT SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@openai/chatgpt"></script>
 
-    <script>
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-WITHELD
-
-            // ... (Your Firebase configuration)
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        // Handle form submission
-        document.getElementById("addItemForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            var itemName = document.getElementById("item-name").value;
-            var description = document.getElementById("description").value;
-            var itemType = document.getElementById("item-type").value;
-            var othersInput = document.getElementById("others-input").value;
-
-            var database = firebase.database();
-            var storage = firebase.storage();
-            var storageRef = storage.ref();
-            var fileInput = document.getElementById("image-file");
-
-            if (fileInput.files[0]) {
-                var imageFile = fileInput.files[0];
-                var imageId = Date.now().toString();
-                var imageRef = storageRef.child("images/" + imageId);
-
-                imageRef.put(imageFile).then(function(snapshot) {
-                    return snapshot.ref.getDownloadURL();
-                }).then(function(downloadURL) {
-                    var postData = {
-                        itemName: itemName,
-                        description: description,
-                        itemType: itemType === "others" ? othersInput : itemType,
-                        dateAdded: new Date().toISOString(),
-                        found: true,
-                        imageUrl: downloadURL
-                    };
-
-                    var newPostRef = database.ref("lostItems").push();
-                    newPostRef.set(postData)
-                        .then(function() {
-                            alert("Item added successfully!");
-                            document.getElementById("addItemForm").reset();
-                        })
-                        .catch(function(error) {
-                            console.error("Error adding item:", error);
-                            alert("An error occurred while adding the item. Please try again.");
-                        });
-                }).catch(function(error) {
-                    console.error("Error uploading image:", error);
-                    alert("An error occurred while uploading the image. Please try again.");
-                });
-            } else {
-                alert("Please select an image file.");
-            }
-        });
-    </script>
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>
