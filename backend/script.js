@@ -1,17 +1,27 @@
+// Firebase configuration
 var firebaseConfig = {
-    // Your Firebase configuration
+    // Your Firebase project configuration
 };
 
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+// Initialize ChatGPT
 const chatGPT = new OpenAI.ChatCompletion({
     model: "gpt-3.5-turbo",
     apiKey: "YOUR_OPENAI_API_KEY"
 });
 
-const itemTypeSelect = document.getElementById('item-type');
-const othersOption = document.getElementById('others-option');
+// DOM elements
+const addItemForm = document.getElementById("addItemForm");
+const itemNameInput = document.getElementById("item-name");
+const descriptionTextarea = document.getElementById("description");
+const itemTypeSelect = document.getElementById("item-type");
+const othersOption = document.getElementById("others-option");
+const othersInput = document.getElementById("others-input");
+const imageFileInput = document.getElementById("image-file");
 
+// Show/hide 'Others' input based on item type selection
 itemTypeSelect.addEventListener('change', function() {
     if (itemTypeSelect.value === 'others') {
         othersOption.style.display = 'block';
@@ -20,57 +30,63 @@ itemTypeSelect.addEventListener('change', function() {
     }
 });
 
-document.getElementById("addItemForm").addEventListener("submit", function(event) {
+// Form submission handling
+addItemForm.addEventListener("submit", function(event) {
     event.preventDefault();
 
-    var itemName = document.getElementById("item-name").value;
-    var description = document.getElementById("description").value;
-    var itemType = document.getElementById("item-type").value;
-    var othersInput = document.getElementById("others-input").value;
+    const itemName = itemNameInput.value.trim();
+    const description = descriptionTextarea.value.trim();
+    const itemType = itemTypeSelect.value;
+    const specifiedType = (itemType === 'others') ? othersInput.value.trim() : itemType;
 
+    // Enlarge description using ChatGPT
     chatGPT.complete(description, { max_tokens: 150 })
         .then((response) => {
             const enlargedDescription = response.data.choices[0].text.trim();
 
-            var database = firebase.database();
-            var storage = firebase.storage();
-            var storageRef = storage.ref();
-            var fileInput = document.getElementById("image-file");
+            // Firebase references
+            const database = firebase.database();
+            const storage = firebase.storage();
+            const storageRef = storage.ref();
+            const imageFile = imageFileInput.files[0];
 
-            if (fileInput.files[0]) {
-                var imageFile = fileInput.files[0];
-                var imageId = Date.now().toString();
-                var imageRef = storageRef.child("images/" + imageId);
+            if (!imageFile) {
+                alert("Please select an image file.");
+                return;
+            }
 
-                imageRef.put(imageFile).then(function(snapshot) {
-                    return snapshot.ref.getDownloadURL();
-                }).then(function(downloadURL) {
-                    var postData = {
+            // Upload image to Firebase Storage
+            const imageId = Date.now().toString();
+            const imageRef = storageRef.child("images/" + imageId);
+
+            imageRef.put(imageFile)
+                .then((snapshot) => snapshot.ref.getDownloadURL())
+                .then((downloadURL) => {
+                    // Prepare data for database
+                    const postData = {
                         itemName: itemName,
                         description: enlargedDescription,
-                        itemType: itemType === "others" ? othersInput : itemType,
+                        itemType: specifiedType,
                         dateAdded: new Date().toISOString(),
                         found: true,
                         imageUrl: downloadURL
                     };
 
-                    var newPostRef = database.ref("lostItems").push();
-                    newPostRef.set(postData)
-                        .then(function() {
+                    // Save data to Firebase Database
+                    database.ref("lostItems").push(postData)
+                        .then(() => {
                             alert("Item added successfully!");
-                            document.getElementById("addItemForm").reset();
+                            addItemForm.reset();
                         })
-                        .catch(function(error) {
+                        .catch((error) => {
                             console.error("Error adding item:", error);
                             alert("An error occurred while adding the item. Please try again.");
                         });
-                }).catch(function(error) {
+                })
+                .catch((error) => {
                     console.error("Error uploading image:", error);
                     alert("An error occurred while uploading the image. Please try again.");
                 });
-            } else {
-                alert("Please select an image file.");
-            }
         })
         .catch((error) => {
             console.error("Error expanding description:", error);
